@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco ACME LTDA - Banca en Línea</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .left-panel {
+            flex: 1;
+            background: white;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .back-link {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 30px;
+            display: inline-block;
+        }
+
+        .back-link:before {
+            content: "‹ ";
+            font-size: 18px;
+        }
+
+        .logo {
+            margin-bottom: 40px;
+        }
+
+        .logo h1 {
+            font-size: 32px;
+            color: #001f5c;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .logo .subtitle {
+            font-size: 14px;
+            color: #00bfa5;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .welcome-text {
+            font-size: 24px;
+            color: #001f5c;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #001f5c;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            background: #001f5c;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .btn-login:hover {
+            background: #003080;
+        }
+
+        .recover-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .recover-link a {
+            color: #001f5c;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .help-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+        }
+
+        .help-section h3 {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 30px;
+        }
+
+        .contact-item h4 {
+            font-size: 14px;
+            color: #001f5c;
+            margin-bottom: 5px;
+        }
+
+        .contact-item p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .help-center {
+            margin-top: 20px;
+        }
+
+        .help-center a {
+            color: #001f5c;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .right-panel {
+            flex: 1.5;
+            position: relative;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            overflow: hidden;
+        }
+
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200') center/cover;
+        }
+
+        .carousel-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 500px;
+        }
+
+        .carousel-card {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            color: white;
+            text-align: left;
+        }
+
+        .carousel-image {
+            width: 100%;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            background: url('https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=400') center/cover;
+        }
+
+        .carousel-title {
+            font-size: 22px;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .carousel-button {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .carousel-button:after {
+            content: " ›";
+            font-size: 18px;
+        }
+
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .carousel-control {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .carousel-control:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .dot {
+            width: 30px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: #00bfa5;
+        }
+
+        .security-message {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 15px 25px;
+            border-radius: 25px;
+            color: white;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .location {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .right-panel {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <a href="#" class="back-link">IR A SITIO PÚBLICO</a>
+            
+            <div class="logo">
+                <h1>Banco ACME LTDA.</h1>
+                <div class="subtitle">TU BANCO DIGITAL</div>
+            </div>
+
+            <h2 class="welcome-text">Bienvenido a tu Banca en Línea</h2>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="rut">RUT</label>
+                    <input type="text" id="rut" placeholder="12.345.678-9" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" placeholder="••••••••" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword()">
+                            👁️
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-login">INGRESAR</button>
+
+                <div class="recover-link">
+                    🔑 ¿Problemas con tu clave? <a href="#">Recupérala</a>
+                </div>
+            </form>
+
+            <div class="help-section">
+                <h3>¿Tienes problema para acceder a tu cuenta?</h3>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <h4>Banco ACME</h4>
+                        <p>📞 600 123 4567</p>
+                    </div>
+                    <div class="contact-item">
+                        <h4>Banco ACME Digital</h4>
+                        <p>📞 600 765 4321</p>
+                    </div>
+                </div>
+                <div class="help-center">
+                    Te invitamos a nuestro Centro de Ayuda<br>
+                    <a href="#">IR AL CENTRO DE AYUDA</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="background-image"></div>
+            
+            <div class="carousel-container">
+                <div class="carousel-card">
+                    <div class="carousel-image"></div>
+                    <div class="carousel-title">
+                        Créditos con tasas preferenciales para tu futuro
+                    </div>
+                    <a href="#" class="carousel-button">CONOCER MÁS</a>
+                </div>
+                
+                <div class="carousel-controls">
+                    <button class="carousel-control" onclick="prevSlide()">‹</button>
+                    <button class="carousel-control" onclick="nextSlide()">›</button>
+                    <button class="carousel-control" onclick="togglePause()">||</button>
+                </div>
+
+                <div class="carousel-dots">
+                    <div class="dot active"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+
+            <div class="security-message">
+                🔒 No compartas tu información bancaria con nadie
+            </div>
+
+            <div class="location">
+                📍 Protegiendo tus finanzas desde 1995
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = [
+            {
+                title: "Créditos con tasas preferenciales para tu futuro",
+                image: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=400"
+            },
+            {
+                title: "Inversiones inteligentes para hacer crecer tu dinero",
+                image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=400"
+            },
+            {
+                title: "Tarjetas de crédito con beneficios exclusivos",
+                image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400"
+            },
+            {
+                title: "Seguros que protegen lo que más te importa",
+                image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400"
+            }
+        ];
+
+        function updateSlide() {
+            const title = document.querySelector('.carousel-title');
+            const image = document.querySelector('.carousel-image');
+            const dots = document.querySelectorAll('.dot');
+
+            title.style.opacity = '0';
+            image.style.opacity = '0';
+
+            setTimeout(() => {
+                title.textContent = slides[currentSlide].title;
+                image.style.backgroundImage = `url('${slides[currentSlide].image}')`;
+                
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentSlide);
+                });
+
+                title.style.opacity = '1';
+                image.style.opacity = '1';
+            }, 300);
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlide();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateSlide();
+        }
+
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const rut = document.getElementById('rut').value;
+            const password = document.getElementById('password').value;
+            
+            if (rut && password) {
+                alert('¡Bienvenido a Banco ACME LTDA.!\n\nEsta es una página de demostración.');
+            }
+        }
+
+        let isPaused = false;
+        let autoSlideInterval;
+
+        function togglePause() {
+            isPaused = !isPaused;
+            if (isPaused) {
+                clearInterval(autoSlideInterval);
+            } else {
+                startAutoSlide();
+            }
+        }
+
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(nextSlide, 5000);
+        }
+
+        startAutoSlide();
+
+        // Smooth transitions
+        document.querySelectorAll('input').forEach(input => {
+            input.style.transition = 'all 0.3s ease';
+        });
+    </script>
+</body>
+</html>
